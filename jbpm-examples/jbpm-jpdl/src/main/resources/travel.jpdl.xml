@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition  xmlns=""  name="travel">
+
+
+	<start-state name="Product chosen">
+		<transition to="Request PNR"></transition>
+	</start-state>
+
+
+	<node name="Redirect to payportal">
+		<transition to="Payment complete" name="payment complete"></transition>
+		<transition to="Payment rejected" name="payment rejected"></transition>
+	</node>
+
+	<state name="Payment complete">
+		<transition to="Request voucher"></transition>
+	</state>
+
+	<state name="Payment rejected">
+		<transition to="Request Cancellation"></transition>
+	</state>
+
+	<node name="Request PNR" async="true">
+		<transition to="PNR is null?"></transition>
+	</node>
+
+	<decision name="PNR is null?">
+		<transition to="Redirect to payportal"></transition>
+		<transition to="Product booking failed" name="PNR is null"></transition>
+	</decision>
+
+	<node name="Request Cancellation">
+		<transition to="Product booking failed"></transition>
+	</node>
+
+	<node name="Request voucher">
+		<transition to="Voucher is null?"></transition>
+	</node>
+
+	<decision name="Voucher is null?">
+		<transition to="Rollback the payment" name="Voucher is null"></transition>
+		<transition to="Send voucher to customer" name="Voucher received"></transition>
+	</decision>
+
+	<task-node name="Rollback the payment">
+		<task name="Rollback the payment">
+			<assignment actor-id="Agent"></assignment>
+			<controller class=""></controller>
+		</task>
+		<transition to="Request Cancellation"></transition>
+	</task-node>
+
+	<mail-node name="Send voucher to customer">
+		<transition to="Product booked successfully"></transition>
+	</mail-node>
+
+
+	<end-state name="Product booking failed"></end-state>
+
+	<end-state name="Product booked successfully"></end-state>
+
+
+	<task name="rollback the payment">
+		<assignment actor-id="Agent"></assignment>
+	</task>
+
+
+</process-definition>
