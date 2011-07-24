@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.jbpm.JbpmConfiguration;
+import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.testng.annotations.Test;
@@ -16,19 +17,33 @@ public class ProcessTest {
 
     @Test
     public void process() {
-
         final JbpmConfiguration configuration = JbpmConfiguration.getInstance( "jbpm.cfg.xml" );
-        configuration.startJobExecutor();
-        //        final JbpmContext context = configuration.createJbpmContext();
+        //        configuration.startJobExecutor();
 
-        final ProcessDefinition processDefinition = ProcessDefinition.parseXmlResource( "travel.jpdl.xml" );
-        //        context.deployProcessDefinition( processDefinition );
+        deployProcessDefinition( configuration );
+
+        final JbpmContext context = configuration.createJbpmContext();
 
         final Map<String, Object> parameters = ImmutableMap.<String, Object> of( Variables.PRODUCT_ID, 1L );
 
-        final ProcessInstance instance = processDefinition.createProcessInstance( parameters );
-        instance.signal();
+        try {
+            final ProcessInstance instance = context.newProcessInstance( "travel" );
+            instance.getContextInstance().addVariables( parameters );
+            instance.signal();
+        } finally {
+            context.close();
+        }
 
         //        instance.signal( "payment complete" );
+    }
+
+    private void deployProcessDefinition( final JbpmConfiguration configuration ) {
+        final ProcessDefinition processDefinition = ProcessDefinition.parseXmlResource( "travel.jpdl.xml" );
+        final JbpmContext context = configuration.createJbpmContext();
+        try {
+            context.deployProcessDefinition( processDefinition );
+        } finally {
+            context.close();
+        }
     }
 }
