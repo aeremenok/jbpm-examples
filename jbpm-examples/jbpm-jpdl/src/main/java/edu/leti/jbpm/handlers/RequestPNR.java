@@ -16,21 +16,21 @@ public class RequestPNR implements ActionHandler {
 
     @Override
     public void execute( final ExecutionContext executionContext ) {
-        final Long productId = (Long) executionContext.getVariable( Variables.PRODUCT_ID );
-        log.info( "sending PNR request for product=" + productId );
-
+        final long productId = (Long) executionContext.getVariable( Variables.PRODUCT_ID );
         final String pnr = requestPnr( productId );
-
         executionContext.setVariable( Variables.PNR, pnr );
     }
 
-    private String requestPnr( final Long productId ) {
+    private String requestPnr( final long productId ) {
+        log.info( "sending PNR request for product=" + productId );
         try {
-            TimeUnit.SECONDS.sleep( 5 );
+            TimeUnit.SECONDS.sleep( 1 );
         } catch ( final InterruptedException e ) {
             Thread.currentThread().interrupt();
         }
+        final String pnr = "PNR1";
+        log.debug( "received pnr=" + pnr );
 
-        return "PNR1";
+        return pnr;
     }
 }
