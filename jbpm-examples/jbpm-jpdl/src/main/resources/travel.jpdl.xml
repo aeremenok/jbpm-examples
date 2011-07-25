@@ -20,7 +20,8 @@
 		<transition to="Redirect to payportal" name="PNR received"></transition>
 	</node>
 
-	<node name="Request Cancellation">
+	<node name="Request Cancellation" async="true">
+		<action class="edu.leti.jbpm.handlers.RequestCancellation" async="true"></action>
 		<transition to="Product booking failed"></transition>
 	</node>
 

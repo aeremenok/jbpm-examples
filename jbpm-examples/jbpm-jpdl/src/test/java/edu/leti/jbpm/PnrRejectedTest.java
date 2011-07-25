@@ -3,6 +3,8 @@
  */
 package edu.leti.jbpm;
 
+import static org.testng.Assert.assertEquals;
+
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
@@ -43,7 +45,8 @@ public class PnrRejectedTest extends ProcessTest {
             public void makeAssertions( final ProcessInstance freshInstance ) {
                 final ContextInstance contextInstance = freshInstance.getContextInstance();
                 assert !contextInstance.hasVariable( Variables.PNR ) : contextInstance.getVariable( Variables.PNR );
-                assert freshInstance.hasEnded() : freshInstance.getRootToken().getNode().getName();
+                assert freshInstance.hasEnded();
+                assertEquals( freshInstance.getRootToken().getNode().getName(), "Product booking failed" );
             }
         } );
     }

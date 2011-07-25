@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package edu.leti.jbpm;
 
 import static org.testng.Assert.assertEquals;
@@ -10,10 +13,12 @@ import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.testng.annotations.Test;
 
-/** @author eav Date: 23.07.11 Time: 0:08 */
-public class SuccessfulProcessTest extends ProcessTest {
+/**
+ * @author eav 2011
+ */
+public class PaymentRejectedTest extends ProcessTest {
     @SuppressWarnings( "unused" )
-    private static final Logger log = Logger.getLogger( SuccessfulProcessTest.class );
+    private static final Logger log = Logger.getLogger( PaymentRejectedTest.class );
 
     private long processId;
 
@@ -46,11 +51,11 @@ public class SuccessfulProcessTest extends ProcessTest {
     }
 
     @Test( dependsOnMethods = "startProcess" )
-    public void completePayment() throws Exception {
+    public void rejectPayment() throws Exception {
         final JbpmContext context = configuration.createJbpmContext();
         try {
             final ProcessInstance instance = context.loadProcessInstance( processId );
-            instance.signal( Transitions.PAYMENT_COMPLETE );
+            instance.signal( Transitions.PAYMENT_REJECTED );
         } finally {
             context.close();
         }
@@ -59,9 +64,8 @@ public class SuccessfulProcessTest extends ProcessTest {
         makeAssertions( processId, new ProcessAssertions() {
             @Override
             public void makeAssertions( final ProcessInstance freshInstance ) {
-                assertEquals( freshInstance.getContextInstance().getVariable( Variables.VOUCHER_ID ), 1L );
                 assert freshInstance.hasEnded();
-                assertEquals( freshInstance.getRootToken().getNode().getName(), "Product booked successfully" );
+                assertEquals( freshInstance.getRootToken().getNode().getName(), "Product booking failed" );
             }
         } );
     }
