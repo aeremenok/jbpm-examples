@@ -1,5 +1,7 @@
 package edu.leti.jbpm;
 
+import static org.testng.Assert.assertEquals;
+
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -29,24 +31,31 @@ public class ProcessTest {
     }
 
     @AfterClass
-    public void tearDown() throws InterruptedException {
+    public void tearDown() {
         try {
-            configuration.getJobExecutor().stop();
+            configuration.getJobExecutor().stopAndJoin();
         } catch ( final Exception e ) {
             log.error( e, e );
         }
 
-        //        try {
-        //            configuration.dropSchema();
-        //        } catch ( final Exception e ) {
-        //            log.error( e, e );
-        //        }
-        TimeUnit.SECONDS.sleep( 5 );
         configuration.close();
     }
 
     @Test
     public void process() throws InterruptedException {
+        final long processId = startProcess();
+
+        TimeUnit.SECONDS.sleep( 5 );
+
+        final JbpmContext context = configuration.createJbpmContext();
+        final ProcessInstance instance = context.loadProcessInstance( processId );
+
+        assertEquals( instance.getContextInstance().getVariable( Variables.PNR ), "PNR1" );
+        log.debug( instance.getRootToken().getNode().getName() );
+
+    }
+
+    private long startProcess() {
         final JbpmContext context = configuration.createJbpmContext();
 
         final Map<String, Object> parameters = ImmutableMap.<String, Object> of( Variables.PRODUCT_ID, 1L );
@@ -56,16 +65,10 @@ public class ProcessTest {
             instance.getContextInstance().addVariables( parameters );
             instance.signal();
 
-            TimeUnit.SECONDS.sleep( 5 );
-            assert instance.getContextInstance().hasVariable( Variables.PNR );
-            //            log.debug( Joiner.on( "\n" ).join( activeNodes ) );
-            //            final Node currentNode = instance.getRootToken().getNode();
-            //            assertEquals( currentNode.getName(), "Redirect to payportal" );
+            return instance.getId();
         } finally {
             context.close();
         }
-
-        //        instance.signal( "payment complete" );
     }
 
     private void deployProcessDefinition( final JbpmConfiguration configuration ) {

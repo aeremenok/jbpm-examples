@@ -18,7 +18,9 @@ public class RequestPNR implements ActionHandler {
     public void execute( final ExecutionContext executionContext ) {
         final long productId = (Long) executionContext.getVariable( Variables.PRODUCT_ID );
         final String pnr = requestPnr( productId );
+
         executionContext.setVariable( Variables.PNR, pnr );
+        executionContext.leaveNode();
     }
 
     private String requestPnr( final long productId ) {
@@ -29,7 +31,7 @@ public class RequestPNR implements ActionHandler {
             Thread.currentThread().interrupt();
         }
         final String pnr = "PNR1";
-        log.debug( "received pnr=" + pnr );
+        log.debug( "received PNR=" + pnr );
 
         return pnr;
     }

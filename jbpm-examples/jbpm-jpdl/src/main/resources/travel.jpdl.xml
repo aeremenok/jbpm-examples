@@ -26,8 +26,8 @@
 		<transition to="PNR is null?"></transition>
 	</node>
 
-	<decision name="PNR is null?">
-		<transition to="Redirect to payportal">
+	<decision name="PNR is null?" expression="">
+		<transition to="Redirect to payportal" name="PNR is not null">
 			<condition expression="PNR != null"></condition>
 		</transition>
 		<transition to="Product booking failed" name="PNR is null">

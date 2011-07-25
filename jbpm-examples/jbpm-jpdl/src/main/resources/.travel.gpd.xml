@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<root-container name="travel" width="880" height="576">
+<root-container name="travel" width="1260" height="576">
   <node name="Product chosen" x="347" y="21" width="132" height="36">
     <edge>
       <label x="5" y="-10"/>
@@ -24,7 +24,6 @@
       <label x="5" y="-10"/>
     </edge>
   </node>
-  <node name="Product booking failed" x="29" y="539" width="193" height="36"/>
   <node name="Request PNR" x="345" y="76" width="132" height="36">
     <edge>
       <label x="5" y="-10"/>
@@ -67,5 +66,6 @@
       <label x="5" y="-10"/>
     </edge>
   </node>
+  <node name="Product booking failed" x="29" y="539" width="193" height="36"/>
   <node name="Product booked successfully" x="548" y="536" width="202" height="36"/>
 </root-container>
