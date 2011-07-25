@@ -17,6 +17,11 @@
 	<string name='resource.node.types' value='org/jbpm/graph/node/node.types.xml' />
 	<string name='resource.parsers' value='org/jbpm/jpdl/par/jbpm.parsers.xml' />
 	<string name='resource.varmapping' value='org/jbpm/context/exe/jbpm.varmapping.xml' />
+	
+	<string name="resource.mail.templates" value="jbpm.mail.templates.xml" />
+	<!-- just not to configure email server -->
+	<string name='jbpm.mail.class.name' value='edu.leti.jbpm.stub.MailStub' />
+	
 	<int name='jbpm.byte.block.size' value="1024" singleton="true" />
 	<!-- beans -->
 	<bean name='jbpm.task.instance.factory' class='org.jbpm.taskmgmt.impl.DefaultTaskInstanceFactoryImpl' singleton='true' />

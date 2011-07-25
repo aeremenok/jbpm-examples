@@ -38,12 +38,12 @@
 		<transition to="Request Cancellation"></transition>
 	</task-node>
 
-	<mail-node name="Send voucher to customer" to="#{customer.email}">
+	<mail-node name="Send voucher to customer" to="#{clientEmail}">
 		<subject>
 			Your booking is succesful. Please print the attached voucher.
 		</subject>
 		<text>
-			#{voucher.body}
+			#{voucherBody}
 		</text>
 		<transition to="Product booked successfully"></transition>
 	</mail-node>
