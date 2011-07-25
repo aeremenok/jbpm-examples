@@ -20,10 +20,12 @@ public class RequestPNR implements ActionHandler {
         final long productId = (Long) executionContext.getVariable( Variables.PRODUCT_ID );
         final String pnr = requestPnr( productId );
 
-        executionContext.setVariable( Variables.PNR, pnr );
-        executionContext.leaveNode( pnr != null
-            ? Transitions.PNR_RECEIVED
-            : Transitions.PNR_REJECTED );
+        if ( pnr != null ) {
+            executionContext.setVariable( Variables.PNR, pnr );
+            executionContext.leaveNode( Transitions.PNR_RECEIVED );
+        } else {
+            executionContext.leaveNode( Transitions.PNR_REJECTED );
+        }
     }
 
     private String requestPnr( final long productId ) {
@@ -35,7 +37,9 @@ public class RequestPNR implements ActionHandler {
         }
 
         // todo randomize
-        final String pnr = "PNR1";
+        final String pnr = productId % 2 == 1
+            ? "PNR1"
+            : null;
         log.info( "received PNR=" + pnr );
 
         return pnr;
