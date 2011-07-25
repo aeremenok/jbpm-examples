@@ -33,8 +33,10 @@ public class RequestPNR implements ActionHandler {
         } catch ( final InterruptedException e ) {
             Thread.currentThread().interrupt();
         }
+
+        // todo randomize
         final String pnr = "PNR1";
-        log.debug( "received PNR=" + pnr );
+        log.info( "received PNR=" + pnr );
 
         return pnr;
     }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<root-container name="travel" width="1260" height="506">
+<root-container name="travel" width="1278" height="492">
   <node name="Product chosen" x="347" y="21" width="132" height="36">
     <edge>
       <label x="5" y="-10"/>
@@ -12,33 +12,24 @@
     </edge>
     <edge>
       <label x="5" y="-10"/>
-    </edge>
-  </node>
-  <node name="Payment complete" x="459" y="202" width="160" height="36">
-    <edge>
-      <label x="5" y="-10"/>
-    </edge>
-  </node>
-  <node name="Payment rejected" x="235" y="199" width="132" height="36">
-    <edge>
-      <label x="5" y="-10"/>
+      <bendpoint w1="-123" h1="68" w2="0" h2="-131"/>
     </edge>
   </node>
   <node name="Request PNR" x="345" y="76" width="132" height="36">
     <edge>
-      <label x="5" y="-10"/>
-      <bendpoint w1="-218" h1="-1" w2="-1" h2="-392"/>
+      <label x="5" y="-18"/>
+      <bendpoint w1="-223" h1="1" w2="-1" h2="-306"/>
     </edge>
     <edge>
       <label x="5" y="-10"/>
     </edge>
   </node>
-  <node name="Request Cancellation" x="224" y="395" width="157" height="36">
+  <node name="Request Cancellation" x="209" y="332" width="157" height="36">
     <edge>
       <label x="5" y="-10"/>
     </edge>
   </node>
-  <node name="Request voucher" x="470" y="259" width="132" height="36">
+  <node name="Request voucher" x="472" y="206" width="132" height="36">
     <edge>
       <label x="5" y="-10"/>
     </edge>
@@ -46,16 +37,16 @@
       <label x="5" y="-10"/>
     </edge>
   </node>
-  <node name="Rollback the payment" x="339" y="336" width="159" height="36">
+  <node name="Rollback the payment" x="326" y="271" width="159" height="36">
     <edge>
       <label x="5" y="-10"/>
     </edge>
   </node>
-  <node name="Send voucher to customer" x="567" y="335" width="193" height="36">
+  <node name="Send voucher to customer" x="598" y="270" width="193" height="36">
     <edge>
       <label x="5" y="-10"/>
     </edge>
   </node>
-  <node name="Product booking failed" x="98" y="467" width="193" height="36"/>
-  <node name="Product booked successfully" x="565" y="469" width="202" height="36"/>
+  <node name="Product booking failed" x="93" y="383" width="193" height="36"/>
+  <node name="Product booked successfully" x="593" y="380" width="202" height="36"/>
 </root-container>

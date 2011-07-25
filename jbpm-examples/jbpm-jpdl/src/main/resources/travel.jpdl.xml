@@ -9,17 +9,10 @@
 
 
 	<node name="Redirect to payportal">
-		<transition to="Payment complete" name="payment complete"></transition>
-		<transition to="Payment rejected" name="payment rejected"></transition>
+		<action class="edu.leti.jbpm.handlers.RedirectToPayPortal"></action>
+		<transition to="Request voucher" name="payment complete"></transition>
+		<transition to="Request Cancellation" name="payment rejected"></transition>
 	</node>
-
-	<state name="Payment complete">
-		<transition to="Request voucher"></transition>
-	</state>
-
-	<state name="Payment rejected">
-		<transition to="Request Cancellation"></transition>
-	</state>
 
 	<node name="Request PNR" async="true">
 		<action class="edu.leti.jbpm.handlers.RequestPNR"></action>
@@ -31,8 +24,9 @@
 		<transition to="Product booking failed"></transition>
 	</node>
 
-	<node name="Request voucher">
-		<transition to="Rollback the payment" name="Voucher is null"></transition>
+	<node name="Request voucher" async="true">
+		<action class="edu.leti.jbpm.handlers.RequestVoucher" async="true"></action>
+		<transition to="Rollback the payment" name="Voucher rejected"></transition>
 		<transition to="Send voucher to customer" name="Voucher received"></transition>
 	</node>
 
@@ -44,7 +38,13 @@
 		<transition to="Request Cancellation"></transition>
 	</task-node>
 
-	<mail-node name="Send voucher to customer">
+	<mail-node name="Send voucher to customer" to="#{customer.email}">
+		<subject>
+			Your booking is succesful. Please print the attached voucher.
+		</subject>
+		<text>
+			#{voucher.body}
+		</text>
 		<transition to="Product booked successfully"></transition>
 	</mail-node>
 

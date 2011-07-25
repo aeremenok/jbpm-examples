@@ -44,20 +44,42 @@ public class ProcessTest {
     @Test
     public void process() throws InterruptedException {
         final long processId = startProcess();
+        TimeUnit.SECONDS.sleep( 5 );
+        completePayment( processId );
 
         TimeUnit.SECONDS.sleep( 5 );
-
         final JbpmContext context = configuration.createJbpmContext();
-        final ProcessInstance instance = context.loadProcessInstance( processId );
+        try {
+            final ProcessInstance instance = context.loadProcessInstance( processId );
 
-        assertEquals( instance.getContextInstance().getVariable( Variables.PNR ), "PNR1" );
-        log.debug( instance.getRootToken().getNode().getName() );
+            assertEquals( instance.getContextInstance().getVariable( Variables.VOUCHER_ID ), 1L );
+            assert instance.hasEnded() : instance.getRootToken().getNode().getName();
+        } finally {
+            context.close();
+        }
+    }
+
+    private void completePayment( final long processId ) {
+        final JbpmContext context = configuration.createJbpmContext();
+        try {
+            final ProcessInstance instance = context.loadProcessInstance( processId );
+
+            assertEquals( instance.getContextInstance().getVariable( Variables.PNR ), "PNR1" );
+            assertEquals( instance.getRootToken().getNode().getName(), "Redirect to payportal" );
+
+            instance.signal( Transitions.PAYMENT_COMPLETE );
+        } finally {
+            context.close();
+        }
     }
 
     private long startProcess() {
         final JbpmContext context = configuration.createJbpmContext();
 
-        final Map<String, Object> parameters = ImmutableMap.<String, Object> of( Variables.PRODUCT_ID, 1L );
+        final Map<String, Object> parameters = ImmutableMap.<String, Object> of( Variables.PRODUCT_ID,
+            1L,
+            Variables.CUSTOMER_EMAIL,
+            "john.smith@example.com" );
 
         try {
             final ProcessInstance instance = context.newProcessInstance( "travel" );
