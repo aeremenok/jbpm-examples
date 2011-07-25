@@ -52,7 +52,6 @@ public class ProcessTest {
 
         assertEquals( instance.getContextInstance().getVariable( Variables.PNR ), "PNR1" );
         log.debug( instance.getRootToken().getNode().getName() );
-
     }
 
     private long startProcess() {

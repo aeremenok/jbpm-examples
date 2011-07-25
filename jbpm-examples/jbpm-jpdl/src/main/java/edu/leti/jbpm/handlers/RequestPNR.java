@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.jbpm.graph.def.ActionHandler;
 import org.jbpm.graph.exe.ExecutionContext;
 
+import edu.leti.jbpm.Transitions;
 import edu.leti.jbpm.Variables;
 
 /**
@@ -20,7 +21,9 @@ public class RequestPNR implements ActionHandler {
         final String pnr = requestPnr( productId );
 
         executionContext.setVariable( Variables.PNR, pnr );
-        executionContext.leaveNode();
+        executionContext.leaveNode( pnr != null
+            ? Transitions.PNR_RECEIVED
+            : Transitions.PNR_REJECTED );
     }
 
     private String requestPnr( final long productId ) {

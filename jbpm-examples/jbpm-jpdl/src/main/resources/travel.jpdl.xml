@@ -23,30 +23,18 @@
 
 	<node name="Request PNR" async="true">
 		<action class="edu.leti.jbpm.handlers.RequestPNR"></action>
-		<transition to="PNR is null?"></transition>
+		<transition to="Product booking failed" name="PNR rejected"></transition>
+		<transition to="Redirect to payportal" name="PNR received"></transition>
 	</node>
-
-	<decision name="PNR is null?" expression="">
-		<transition to="Redirect to payportal" name="PNR is not null">
-			<condition expression="PNR != null"></condition>
-		</transition>
-		<transition to="Product booking failed" name="PNR is null">
-			<condition expression="PNR == null"></condition>
-		</transition>
-	</decision>
 
 	<node name="Request Cancellation">
 		<transition to="Product booking failed"></transition>
 	</node>
 
 	<node name="Request voucher">
-		<transition to="Voucher is null?"></transition>
-	</node>
-
-	<decision name="Voucher is null?">
 		<transition to="Rollback the payment" name="Voucher is null"></transition>
 		<transition to="Send voucher to customer" name="Voucher received"></transition>
-	</decision>
+	</node>
 
 	<task-node name="Rollback the payment">
 		<task name="Rollback the payment">
