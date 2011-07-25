@@ -39,7 +39,7 @@ public class MailStub extends Mail {
         try {
             super.send();
         } catch ( final Throwable e ) {
-            log.error( e, e );
+            log.error( "couldn't really send mail because of " + e );
         }
     }
 }
