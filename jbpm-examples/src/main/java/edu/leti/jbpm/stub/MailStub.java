@@ -3,14 +3,15 @@
  */
 package edu.leti.jbpm.stub;
 
-import org.apache.log4j.Logger;
 import org.jbpm.mail.Mail;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author eav 2011
  */
 public class MailStub extends Mail {
-    private static final Logger log = Logger.getLogger( MailStub.class );
+    private static final Logger log = LoggerFactory.getLogger( MailStub.class );
 
     public MailStub() {
         super();

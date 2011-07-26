@@ -3,11 +3,12 @@
  */
 package edu.leti.jbpm;
 
-import org.apache.log4j.Logger;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
@@ -15,8 +16,7 @@ import org.testng.annotations.BeforeClass;
  * @author eav 2011
  */
 public abstract class ProcessTest {
-    private static final Logger log = Logger.getLogger( ProcessTest.class );
-
+    private static final Logger log = LoggerFactory.getLogger( ProcessTest.class );
     protected JbpmConfiguration configuration;
 
     @BeforeClass
@@ -33,7 +33,7 @@ public abstract class ProcessTest {
         try {
             configuration.getJobExecutor().stopAndJoin();
         } catch ( final Exception e ) {
-            log.error( e, e );
+            log.error( e.getMessage(), e );
         }
 
         configuration.close();

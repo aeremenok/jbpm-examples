@@ -7,7 +7,6 @@ import static org.testng.Assert.assertEquals;
 
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Logger;
 import org.jbpm.JbpmContext;
 import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.exe.ProcessInstance;
@@ -19,9 +18,6 @@ import edu.leti.jbpm.stub.ChaosMonkey;
  * @author eav 2011
  */
 public class PnrRejectedTest extends ProcessTest {
-    @SuppressWarnings( "unused" )
-    private static final Logger log = Logger.getLogger( PnrRejectedTest.class );
-
     private long processId;
 
     @Test

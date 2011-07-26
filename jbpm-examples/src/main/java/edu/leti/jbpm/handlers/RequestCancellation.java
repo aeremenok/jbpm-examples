@@ -5,9 +5,10 @@ package edu.leti.jbpm.handlers;
 
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Logger;
 import org.jbpm.graph.def.ActionHandler;
 import org.jbpm.graph.exe.ExecutionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.leti.jbpm.Variables;
 
@@ -15,7 +16,7 @@ import edu.leti.jbpm.Variables;
  * @author eav 2011
  */
 public class RequestCancellation implements ActionHandler {
-    private static final Logger log = Logger.getLogger( RequestCancellation.class );
+    private static final Logger log = LoggerFactory.getLogger( RequestCancellation.class );
 
     @Override
     public void execute( final ExecutionContext executionContext ) {
@@ -28,7 +29,7 @@ public class RequestCancellation implements ActionHandler {
     }
 
     private void requestCancellation( final long productId, final String pnr ) {
-        log.info( "requesting cancellation for product=" + productId + ", pnr=" + pnr );
+        log.info( "requesting cancellation for product={}, pnr={}", productId, pnr );
         try {
             TimeUnit.SECONDS.sleep( 1 );
         } catch ( final InterruptedException e ) {

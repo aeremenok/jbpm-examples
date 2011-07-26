@@ -5,18 +5,21 @@
 <hibernate-configuration>
 	<session-factory>
 		<property name="hibernate.connection.driver_class">org.h2.Driver</property>
-		<!-- todo parametrize url -->
-		<property name="hibernate.connection.url">jdbc:h2:../../db-storage/jbpm;TRACE_LEVEL_FILE=1;TRACE_LEVEL_SYSTEM_OUT=0;TRACE_MAX_FILE_SIZE=1;AUTO_SERVER=TRUE;MVCC=TRUE</property>
+		<property name="hibernate.connection.url">
+		    jdbc:h2:../../db-storage/jbpm;TRACE_LEVEL_FILE=1;TRACE_LEVEL_SYSTEM_OUT=0;TRACE_MAX_FILE_SIZE=1;AUTO_SERVER=TRUE;MVCC=TRUE
+		</property>
 		<property name="hibernate.connection.username">sa</property>
 		<property name="hibernate.connection.password"></property>
 		<property name="hibernate.dialect">org.hibernate.dialect.H2Dialect</property>
-		<property name="hibernate.connection.provider_class">edu.leti.jbpm.db.H2Connector</property>
 		<property name="hbm2ddl.auto">update</property>
 		<property name="show_sql">false</property>
 		<property name="format_sql">false</property>
-		<!-- jbpm-specific 
+		
+		<!-- jbpm-specific
+		resource list got from: 
 		http://code.google.com/p/seam-registration-example-app/source/browse/trunk/src-static/registration.ear/jbpm-hibernate.cfg.xml
 		-->
+		
 		<mapping resource="org/jbpm/db/hibernate.types.hbm.xml" />
     <!-- ############################################ -->
     <!-- # mapping files with external dependencies # -->

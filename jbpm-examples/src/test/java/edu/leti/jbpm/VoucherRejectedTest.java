@@ -8,7 +8,6 @@ import static org.testng.Assert.assertEquals;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Logger;
 import org.jbpm.JbpmContext;
 import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.exe.ProcessInstance;
@@ -21,9 +20,6 @@ import edu.leti.jbpm.stub.ChaosMonkey;
  * @author eav 2011
  */
 public class VoucherRejectedTest extends ProcessTest {
-    @SuppressWarnings( "unused" )
-    private static final Logger log = Logger.getLogger( VoucherRejectedTest.class );
-
     private long processId;
 
     @Test
@@ -81,7 +77,7 @@ public class VoucherRejectedTest extends ProcessTest {
     public void completePaymentRollbackTask() throws Exception {
         final JbpmContext context = configuration.createJbpmContext();
         try {
-            String actorId = "Agent";
+            final String actorId = "Agent";
             @SuppressWarnings( "unchecked" )
             final List<TaskInstance> taskList = context.getTaskList( actorId );
             assertEquals( taskList.size(), 1 );
