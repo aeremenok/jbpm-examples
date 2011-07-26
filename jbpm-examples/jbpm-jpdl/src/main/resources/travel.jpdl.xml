@@ -32,9 +32,12 @@
 	</node>
 
 	<task-node name="Rollback the payment">
-		<task name="Rollback the payment">
+		<task name="Rollback the payment from admin console">
+			<description>
+				Go to payportal admin console and rollback the payment for product #{productId}
+			</description>
 			<assignment actor-id="Agent"></assignment>
-			<controller class=""></controller>
+			<controller></controller>
 		</task>
 		<transition to="Request Cancellation"></transition>
 	</task-node>

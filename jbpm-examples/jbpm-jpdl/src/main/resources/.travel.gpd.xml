@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<root-container name="travel" width="1301" height="598">
+<root-container name="travel" width="1252" height="598">
   <node name="Product chosen" x="347" y="21" width="132" height="36">
     <edge>
       <label x="5" y="-10"/>

@@ -5,12 +5,14 @@ package edu.leti.jbpm;
 
 import static org.testng.Assert.assertEquals;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.jbpm.JbpmContext;
 import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.exe.ProcessInstance;
+import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.testng.annotations.Test;
 
 import edu.leti.jbpm.stub.ChaosMonkey;
@@ -66,8 +68,40 @@ public class VoucherRejectedTest extends ProcessTest {
         makeAssertions( processId, new ProcessAssertions() {
             @Override
             public void makeAssertions( final ProcessInstance freshInstance ) {
-                assert freshInstance.hasEnded();
+                final ContextInstance contextInstance = freshInstance.getContextInstance();
+                assert !contextInstance.hasVariable( Variables.VOUCHER_ID ) : contextInstance
+                        .getVariable( Variables.VOUCHER_ID );
+
+                assertEquals( freshInstance.getRootToken().getNode().getName(), "Rollback the payment" );
+            }
+        } );
+    }
+
+    @Test( dependsOnMethods = "completePayment" )
+    public void completePaymentRollbackTask() throws Exception {
+        final JbpmContext context = configuration.createJbpmContext();
+        try {
+            String actorId = "Agent";
+            @SuppressWarnings( "unchecked" )
+            final List<TaskInstance> taskList = context.getTaskList( actorId );
+            assertEquals( taskList.size(), 1 );
+
+            final TaskInstance taskInstance = taskList.get( 0 );
+            assertEquals( taskInstance.getName(), "Rollback the payment from admin console" );
+
+            taskInstance.start();
+            TimeUnit.SECONDS.sleep( 3 );
+            taskInstance.end();
+        } finally {
+            context.close();
+        }
+
+        TimeUnit.SECONDS.sleep( 5 );
+        makeAssertions( processId, new ProcessAssertions() {
+            @Override
+            public void makeAssertions( final ProcessInstance freshInstance ) {
                 assertEquals( freshInstance.getRootToken().getNode().getName(), "Product booking failed" );
+                assert freshInstance.hasEnded();
             }
         } );
     }

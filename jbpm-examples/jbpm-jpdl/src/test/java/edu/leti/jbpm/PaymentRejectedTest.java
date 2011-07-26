@@ -64,8 +64,8 @@ public class PaymentRejectedTest extends ProcessTest {
         makeAssertions( processId, new ProcessAssertions() {
             @Override
             public void makeAssertions( final ProcessInstance freshInstance ) {
-                assert freshInstance.hasEnded();
                 assertEquals( freshInstance.getRootToken().getNode().getName(), "Product booking failed" );
+                assert freshInstance.hasEnded();
             }
         } );
     }
