@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package edu.leti.jbpm;
 
 import static org.testng.Assert.assertEquals;
@@ -12,10 +15,12 @@ import org.testng.annotations.Test;
 
 import edu.leti.jbpm.stub.ChaosMonkey;
 
-/** @author eav Date: 23.07.11 Time: 0:08 */
-public class SuccessfulProcessTest extends ProcessTest {
+/**
+ * @author eav 2011
+ */
+public class VoucherRejectedTest extends ProcessTest {
     @SuppressWarnings( "unused" )
-    private static final Logger log = Logger.getLogger( SuccessfulProcessTest.class );
+    private static final Logger log = Logger.getLogger( VoucherRejectedTest.class );
 
     private long processId;
 
@@ -27,7 +32,7 @@ public class SuccessfulProcessTest extends ProcessTest {
             final ProcessInstance instance = context.newProcessInstance( "travel" );
             final ContextInstance contextInstance = instance.getContextInstance();
 
-            contextInstance.setVariable( Variables.PRODUCT_ID, ChaosMonkey.GOOD_PRODUCT_ID );
+            contextInstance.setVariable( Variables.PRODUCT_ID, ChaosMonkey.NO_VOUCHER );
             contextInstance.setVariable( Variables.CUSTOMER_EMAIL, "john.smith@example.com" );
 
             instance.signal();
@@ -61,9 +66,8 @@ public class SuccessfulProcessTest extends ProcessTest {
         makeAssertions( processId, new ProcessAssertions() {
             @Override
             public void makeAssertions( final ProcessInstance freshInstance ) {
-                assertEquals( freshInstance.getContextInstance().getVariable( Variables.VOUCHER_ID ), 1L );
                 assert freshInstance.hasEnded();
-                assertEquals( freshInstance.getRootToken().getNode().getName(), "Product booked successfully" );
+                assertEquals( freshInstance.getRootToken().getNode().getName(), "Product booking failed" );
             }
         } );
     }

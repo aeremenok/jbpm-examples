@@ -8,6 +8,7 @@ import org.jbpm.graph.exe.ExecutionContext;
 
 import edu.leti.jbpm.Transitions;
 import edu.leti.jbpm.Variables;
+import edu.leti.jbpm.stub.ChaosMonkey;
 
 /**
  * @author eav 2011
@@ -36,10 +37,9 @@ public class RequestPNR implements ActionHandler {
             Thread.currentThread().interrupt();
         }
 
-        // todo randomize
-        final String pnr = productId % 2 == 1
-            ? "PNR1"
-            : null;
+        final String pnr = ChaosMonkey.M.shouldRejectPnr( productId )
+            ? null
+            : "PNR1";
         log.info( "received PNR=" + pnr );
 
         return pnr;

@@ -12,6 +12,7 @@ import org.jbpm.graph.exe.ExecutionContext;
 import edu.leti.jbpm.Transitions;
 import edu.leti.jbpm.Variables;
 import edu.leti.jbpm.domain.Voucher;
+import edu.leti.jbpm.stub.ChaosMonkey;
 
 /**
  * @author eav 2011
@@ -40,8 +41,11 @@ public class RequestVoucher implements ActionHandler {
         } catch ( final InterruptedException e ) {
             Thread.currentThread().interrupt();
         }
-        // todo randomize
-        final Voucher voucher = new Voucher( 1L, "<html>Hotel Florida</html>" );
+
+        final Voucher voucher = ChaosMonkey.M.shouldRejectVoucher( productId )
+            ? null
+            : new Voucher( 1L, "<html>Hotel Florida</html>" );
+
         log.info( "received voucher " + voucher );
         return voucher;
     }

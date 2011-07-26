@@ -13,6 +13,8 @@ import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.testng.annotations.Test;
 
+import edu.leti.jbpm.stub.ChaosMonkey;
+
 /**
  * @author eav 2011
  */
@@ -24,13 +26,14 @@ public class PnrRejectedTest extends ProcessTest {
 
     @Test
     public void startProcess() throws Exception {
+
         final JbpmContext context = configuration.createJbpmContext();
 
         try {
             final ProcessInstance instance = context.newProcessInstance( "travel" );
             final ContextInstance contextInstance = instance.getContextInstance();
 
-            contextInstance.setVariable( Variables.PRODUCT_ID, 2L );
+            contextInstance.setVariable( Variables.PRODUCT_ID, ChaosMonkey.NO_PNR );
 
             instance.signal();
 

@@ -14,7 +14,7 @@ import org.testng.annotations.BeforeClass;
 /**
  * @author eav 2011
  */
-public class ProcessTest {
+public abstract class ProcessTest {
     private static final Logger log = Logger.getLogger( ProcessTest.class );
 
     protected JbpmConfiguration configuration;
