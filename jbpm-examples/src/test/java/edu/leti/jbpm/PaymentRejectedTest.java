@@ -12,6 +12,8 @@ import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.testng.annotations.Test;
 
+import edu.leti.jbpm.handlers.PayPortal;
+
 /**
  * @author eav 2011
  */
@@ -41,7 +43,6 @@ public class PaymentRejectedTest extends ProcessTest {
             @Override
             public void makeAssertions( final ProcessInstance freshInstance ) {
                 assertEquals( freshInstance.getContextInstance().getVariable( Variables.PNR ), "PNR1" );
-                assertEquals( freshInstance.getRootToken().getNode().getName(), "Redirect to payportal" );
             }
         } );
     }
@@ -51,6 +52,9 @@ public class PaymentRejectedTest extends ProcessTest {
         final JbpmContext context = configuration.createJbpmContext();
         try {
             final ProcessInstance instance = context.loadProcessInstance( processId );
+
+            PayPortal.P.doRedirect( instance );
+
             instance.signal( Transitions.PAYMENT_REJECTED );
         } finally {
             context.close();

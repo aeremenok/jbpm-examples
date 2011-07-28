@@ -9,6 +9,7 @@ import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.testng.annotations.Test;
 
+import edu.leti.jbpm.handlers.PayPortal;
 import edu.leti.jbpm.stub.ChaosMonkey;
 
 /** @author eav Date: 23.07.11 Time: 0:08 */
@@ -38,7 +39,7 @@ public class SuccessfulProcessTest extends ProcessTest {
             @Override
             public void makeAssertions( final ProcessInstance freshInstance ) {
                 assertEquals( freshInstance.getContextInstance().getVariable( Variables.PNR ), "PNR1" );
-                assertEquals( freshInstance.getRootToken().getNode().getName(), "Redirect to payportal" );
+
             }
         } );
     }
@@ -48,6 +49,9 @@ public class SuccessfulProcessTest extends ProcessTest {
         final JbpmContext context = configuration.createJbpmContext();
         try {
             final ProcessInstance instance = context.loadProcessInstance( processId );
+
+            PayPortal.P.doRedirect( instance );
+
             instance.signal( Transitions.PAYMENT_COMPLETE );
         } finally {
             context.close();

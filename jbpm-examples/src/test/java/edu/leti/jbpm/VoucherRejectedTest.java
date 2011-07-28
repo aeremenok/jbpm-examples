@@ -14,6 +14,7 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.testng.annotations.Test;
 
+import edu.leti.jbpm.handlers.PayPortal;
 import edu.leti.jbpm.stub.ChaosMonkey;
 
 /**
@@ -45,7 +46,6 @@ public class VoucherRejectedTest extends ProcessTest {
             @Override
             public void makeAssertions( final ProcessInstance freshInstance ) {
                 assertEquals( freshInstance.getContextInstance().getVariable( Variables.PNR ), "PNR1" );
-                assertEquals( freshInstance.getRootToken().getNode().getName(), "Redirect to payportal" );
             }
         } );
     }
@@ -55,6 +55,9 @@ public class VoucherRejectedTest extends ProcessTest {
         final JbpmContext context = configuration.createJbpmContext();
         try {
             final ProcessInstance instance = context.loadProcessInstance( processId );
+
+            PayPortal.P.doRedirect( instance );
+
             instance.signal( Transitions.PAYMENT_COMPLETE );
         } finally {
             context.close();
@@ -64,10 +67,9 @@ public class VoucherRejectedTest extends ProcessTest {
         makeAssertions( processId, new ProcessAssertions() {
             @Override
             public void makeAssertions( final ProcessInstance freshInstance ) {
-                final ContextInstance contextInstance = freshInstance.getContextInstance();
-                assert !contextInstance.hasVariable( Variables.VOUCHER_ID ) : contextInstance
-                        .getVariable( Variables.VOUCHER_ID );
+                final ContextInstance ctx = freshInstance.getContextInstance();
 
+                assert !ctx.hasVariable( Variables.VOUCHER_ID ) : ctx.getVariable( Variables.VOUCHER_ID );
                 assertEquals( freshInstance.getRootToken().getNode().getName(), "Rollback the payment" );
             }
         } );
@@ -76,8 +78,9 @@ public class VoucherRejectedTest extends ProcessTest {
     @Test( dependsOnMethods = "completePayment" )
     public void completePaymentRollbackTask() throws Exception {
         final JbpmContext context = configuration.createJbpmContext();
+
+        final String actorId = "Agent";
         try {
-            final String actorId = "Agent";
             @SuppressWarnings( "unchecked" )
             final List<TaskInstance> taskList = context.getTaskList( actorId );
             assertEquals( taskList.size(), 1 );

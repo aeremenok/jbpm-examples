@@ -43,6 +43,7 @@ public class PnrRejectedTest extends ProcessTest {
             @Override
             public void makeAssertions( final ProcessInstance freshInstance ) {
                 final ContextInstance contextInstance = freshInstance.getContextInstance();
+
                 assert !contextInstance.hasVariable( Variables.PNR ) : contextInstance.getVariable( Variables.PNR );
                 assertEquals( freshInstance.getRootToken().getNode().getName(), "Product booking failed" );
                 assert freshInstance.hasEnded();

@@ -8,16 +8,10 @@
 	</start-state>
 
 
-	<node name="Redirect to payportal">
-		<action class="edu.leti.jbpm.handlers.RedirectToPayPortal"></action>
-		<transition to="Request voucher" name="payment complete"></transition>
-		<transition to="Request Cancellation" name="payment rejected"></transition>
-	</node>
-
 	<node name="Request PNR" async="true">
 		<action class="edu.leti.jbpm.handlers.RequestPNR"></action>
 		<transition to="Product booking failed" name="PNR rejected"></transition>
-		<transition to="Redirect to payportal" name="PNR received"></transition>
+		<transition to="Awaiting payment" name="PNR received"></transition>
 	</node>
 
 	<node name="Request Cancellation" async="true">
@@ -51,6 +45,11 @@
 		</text>
 		<transition to="Product booked successfully"></transition>
 	</mail-node>
+
+	<state name="Awaiting payment">
+		<transition to="Request Cancellation" name="payment rejected"></transition>
+		<transition to="Request voucher" name="payment complete"></transition>
+	</state>
 
 
 	<end-state name="Product booking failed"></end-state>
