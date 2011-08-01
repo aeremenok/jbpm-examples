@@ -1,4 +1,4 @@
-This project is an example how to use [http://www.jboss.org/jbpm jBPM 3].
+This project is an example how to use [jBPM3](http://www.jboss.org/jbpm).
 
 To run it you'll need:
 
