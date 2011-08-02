@@ -1,15 +1,13 @@
 /**
- * 
+ *
  */
 package edu.leti.jbpm.domain;
 
-import javax.persistence.Id;
 
 /**
  * @author eav 2011
  */
 public class Voucher {
-    @Id
     private long id;
     private String body;
 

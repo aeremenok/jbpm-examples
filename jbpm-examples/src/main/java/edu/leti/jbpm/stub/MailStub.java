@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package edu.leti.jbpm.stub;
 
@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * Allows skipping mail server setup and configuration for testing purposes
+ *
  * @author eav 2011
  */
 public class MailStub extends Mail {

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.leti.jbpm.handlers;
+package edu.leti.jbpm;
 
 import java.util.concurrent.TimeUnit;
 
@@ -10,7 +10,6 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import edu.leti.jbpm.Variables;
 
 /**
  * @author eav 2011

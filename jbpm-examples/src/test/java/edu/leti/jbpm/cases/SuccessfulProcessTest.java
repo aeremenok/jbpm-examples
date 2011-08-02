@@ -1,4 +1,4 @@
-package edu.leti.jbpm;
+package edu.leti.jbpm.cases;
 
 import static org.testng.Assert.assertEquals;
 
@@ -9,11 +9,15 @@ import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.testng.annotations.Test;
 
-import edu.leti.jbpm.handlers.PayPortal;
+import edu.leti.jbpm.PayPortal;
+import edu.leti.jbpm.ProcessAssertions;
+import edu.leti.jbpm.AbstractProcessTest;
+import edu.leti.jbpm.Transitions;
+import edu.leti.jbpm.Variables;
 import edu.leti.jbpm.stub.ChaosMonkey;
 
 /** @author eav Date: 23.07.11 Time: 0:08 */
-public class SuccessfulProcessTest extends ProcessTest {
+public class SuccessfulProcessTest extends AbstractProcessTest {
     private long processId;
 
     @Test
